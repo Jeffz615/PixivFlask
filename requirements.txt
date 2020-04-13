@@ -1,0 +1,4 @@
+pixivpy
+apscheduler
+pillow
+pycryptodome

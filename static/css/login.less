@@ -1,0 +1,104 @@
+body {
+    height: 100vh;
+    background-image: linear-gradient(45deg, #a6c0fe 0%, #f68084 100%);
+    font-family: arial, 'Microsoft Yahei', '微软雅黑';
+
+    .login-wrapper {
+        width: 350px;
+        height: 200px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        background-image: linear-gradient(225deg, #a6c0fe 0%, #f68084 100%);
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
+        border-radius: 25px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+
+        h1 {
+            font-size: 30px;
+            font-weight: bolder;
+            user-select: none;
+        }
+
+        .password-wrapper {
+            width: 300px;
+            font-size: 12px;
+            display: flex;
+            height: 30px;
+            align-items: center;
+            justify-content: space-between;
+
+            #password {
+                flex-grow: 1;
+                width: 200px;
+                height: 30px;
+                outline: none;
+                padding: 0 15px;
+                font-size: 16px;
+                border-radius: 15px;
+                border: none;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+
+                &:focus {
+                    box-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
+                }
+            }
+
+            #show-btn {
+                margin-left: 5px;
+                height: 30px;
+                width: 30px;
+                border-radius: 50%;
+                border: none;
+                outline: none;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+                background-color: #eee;
+
+                &:hover {
+                    box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+                    background-color: white;
+                }
+
+                &.show {
+                    background-color: red;
+                }
+
+                &:active {
+                    box-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
+                    background-color: #ddd;
+                }
+            }
+        }
+
+        >button {
+            width: 300px;
+            height: 30px;
+            border-radius: 15px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #eee;
+            color: #333;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+
+            &:hover {
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+                color: black;
+                background-color: white;
+                transform: translate(1px, -1px);
+            }
+
+            &:active {
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
+                background-color: #ddd;
+                transform: translate(0px, 0px);
+            }
+        }
+    }
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixiv Daily</title>
+    <link rel="shortcut icon" href="./static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./static/css/reset.css">
+    <link rel="stylesheet" href="./static/css/iconfont/iconfont.css">
+    <link rel="stylesheet" href="./static/css/style.css">
+    <script src="./static/js/jquery-3.4.1.min.js"></script>
+    <script src="./static/js/jquery.cookie.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="menu-wapper">
+            <a class="menu-icon" href="javascript:;">
+                <i class="iconfont">&#xe64f;</i>
+            </a>
+            <div class="ext-menu">
+                <ul class="time-menu">
+                    <!-- <li><a href="#" class="now-time">20200101</a></li> -->
+                </ul>
+                <ul hidden class="function-menu">
+                    <li><a class="homepage" href="javascript:;"><i class="iconfont">&#xe62e;</i>返回首页</a></li>
+                    <li></li>
+                    <li><a href="#" target="_blank" class="orig-link"><i class="iconfont">&#xe640;</i>下载原图</a></li>
+                    <li><a href="javascript:;" class="first-page"><i class="iconfont">&#xe65b;</i>封面</a></li>
+                    <li><a href="javascript:;" class="last-page"><i class="iconfont">&#xe658;</i>上一张</a></li>
+                    <li><a href="javascript:;" class="next-page"><i class="iconfont">&#xe659;</i>下一张</a></li>
+                    <li></li>
+                    <li><a hidden class="delete" href="javascript:;"><i class="iconfont">&#xe624;</i>删除</a></li>
+                </ul>
+            </div>
+        </div>
+        <h1>Pixiv Daily</h1>
+        <h2 hidden></h2>
+        <div class="detail-wrapper">
+            <div hidden class="category-status"></div>
+            <div class="download-status"></div>
+            <a hidden class="logout-icon" href="javascript:;">
+                <i class="iconfont">&#xe669;</i>
+            </a>
+        </div>
+    </header>
+    <a href="javascript:;" class="place">
+        <div></div>
+    </a>
+    <main>
+        <div class="img-thum-wapper">
+            <!-- <div class="item">
+                    <a href="javascript:;" class="thumimg" >
+                        <img src="/static/img/thum/80699361.png" alt="80699361-thum">
+                    </a>
+                    <a hidden class="deleteicon" href="javascript:;">
+                        <i class="iconfont">&#xe624;</i>
+                    </a>
+                    <div class="count">3</div>
+                </div> -->
+        </div>
+        <div hidden class="img-orig-wapper">
+            <a href="javascript:;">
+                <img src="#" alt="#">
+            </a>
+        </div>
+    </main>
+    <footer><a href="https://blog.jeffz.cn">&copyJeffZF</a><span hidden></span></footer>
+    <script src="./static/js/script.js"></script>
+</body>
+
+</html>
