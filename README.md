@@ -79,6 +79,7 @@ import logging
 PORT = 5555  # 端口号
 HOST = "0.0.0.0"  # 监听地址
 DEBUG = False  # Flask的Debug模式，部署后不要开启
+ALLOW_HOSTS = ["127.0.0.1:5555", "localhost:5555"]  # 允许访问的hosts
 
 # 日志文件
 LOGON = True  # 开启日志

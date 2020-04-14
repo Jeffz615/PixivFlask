@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, jsonify, render_template, request, Response, send_from_directory
+from flask import Flask, jsonify, render_template, request, Response, send_from_directory, abort
 from . import define
 from . import db
 import os
@@ -16,10 +16,10 @@ app = Flask(__name__, static_folder=define.STATICPATH,
 RSA = rsaUnit.myRSA()
 
 
-# 收藏图标
-@app.route("/favicon.ico")
-def favicon():
-    return send_from_directory(os.path.join(define.STATICPATH, config.IMGPATH), "favicon.ico")
+@app.before_request
+def checkHosts():
+    if request.host not in config.ALLOW_HOSTS:
+        abort(404)
 
 
 # 首页

@@ -9,6 +9,7 @@ import logging
 PORT = 5555
 HOST = "0.0.0.0"
 DEBUG = False
+ALLOW_HOSTS = ["127.0.0.1:5555", "localhost:5555"]
 
 # 日志文件
 LOGON = True
