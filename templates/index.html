@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./static/css/style.css">
     <script src="./static/js/jquery-3.4.1.min.js"></script>
     <script src="./static/js/jquery.cookie.min.js"></script>
+    <script src="./static/js/jquery-ui.min.js"></script>
 </head>
 
 <body>
@@ -35,8 +36,10 @@
                 </ul>
             </div>
         </div>
-        <h1>Pixiv Daily</h1>
-        <h2 hidden></h2>
+        <div class="hbox">
+            <h1>Pixiv Daily</h1>
+            <h2 hidden></h2>
+        </div>
         <div class="detail-wrapper">
             <div hidden class="category-status"></div>
             <div class="download-status"></div>
@@ -66,7 +69,10 @@
             </a>
         </div>
     </main>
-    <footer><a href="https://blog.jeffz.cn">&copyJeffZF</a><span hidden></span></footer>
+    <footer>
+        <div class="hbox"><a href="https://blog.jeffz.cn">&copyJeffZF</a><span hidden></span></div>
+    </footer>
+    <input hidden type="text" id="hide">
     <script src="./static/js/script.js"></script>
 </body>
 

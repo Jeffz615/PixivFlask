@@ -27,7 +27,7 @@ FLASK_PASSWORD = "passwd"
 PIXIV_USERNAME = "username"
 PIXIV_PASSWORD = "password"
 
-# 是否启用代理图传站(pixiv.cat)
+# 是否启用代理图床站(pixiv.cat)
 USECAT = True
 
 # 排行榜每日下载时间设置
@@ -38,7 +38,7 @@ APSTIME = {"hour": 12, "minute": 0}
 # MODELIST = ["day", "week", "month", "day_male", "day_female",
 #             "week_original", "week_rookie", "day_manga", "day_r18", "day_male_r18",
 #             "day_female_r18", "week_r18", "week_r18g"]
-CHOICEMODE = ["day", "day_male"]
+CHOICEMODE = ["day"]
 
 # COUNT阈值，合集中超过多少张不下载，0为无限制
 MAXCOUNT = 3

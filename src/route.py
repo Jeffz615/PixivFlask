@@ -19,7 +19,7 @@ RSA = rsaUnit.myRSA()
 # 收藏图标
 @app.route("/favicon.ico")
 def favicon():
-    return send_from_directory(os.path.join(define.STATICPATH, 'favicon.ico'))
+    return send_from_directory(os.path.join(define.STATICPATH, config.IMGPATH), "favicon.ico")
 
 
 # 首页

@@ -2,3 +2,4 @@ pixivpy
 apscheduler
 pillow
 pycryptodome
+Flask
