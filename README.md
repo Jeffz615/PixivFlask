@@ -1,4 +1,4 @@
-# PixivFlask v0.1
+# PixivFlask
 
 ## 架构
 
