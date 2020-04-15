@@ -345,7 +345,7 @@ function deleteItem(rankid) {
                 if (data.hasOwnProperty("errno")) {
                     showMsg("Delete " + String(illust) + " - " + data.msg);
                     if (data.errno === 0) {
-                        $(".img-thum-wapper .item:nth-child(" + String(rankid) + ")").hide();
+                        $(".img-thum-wapper .item:nth-child(" + String(rankid + 1) + ")").hide();
                     } else if (data.errno === 6) {
                         alert("未登录或登录过期");
                         $(".logout-icon").click();
@@ -408,7 +408,7 @@ function deleteAllItem(typelist) {
 
 
 $(".delete").click(function() {
-    deleteitem(rankid);
+    deleteItem(rankid);
     $(".homepage").click();
 });
 
