@@ -46,7 +46,7 @@ function showMsg(text) {
 
 function thumReload() {
     // 获取元素信息
-    localStorage.setItem("category", category);
+    var temp = localStorage.categorybtn;
     // console.log("thumReload:" + category);
     $(".img-thum-wapper").empty();
     obj = {
@@ -69,10 +69,14 @@ function thumReload() {
                         for (var i = 0; i < nowitems.length; i++) {
                             $(".img-thum-wapper").append('<div class="item"><a href="javascript:;" class="thumimg" name="' + String(i) + '"><img src="/static/img/thum/' + nowitems[i].illust + '.png" alt="' + nowitems[i].illust + '-thum"></a><div class="count">' + nowitems[i].count + '</div></div>');
                         }
+                        if (!(typeof(temp) === "undefined") && temp === "true") {
+                            localStorage.setItem("category", category);
+                        }
                     } else {
                         for (var i = 0; i < nowitems.length; i++) {
                             $(".img-thum-wapper").append('<div class="item"><a href="javascript:;" class="thumimg" name="' + String(i) + '"><img src="/static/img/thum/' + nowitems[i].illust + '.png" alt="' + nowitems[i].illust + '-thum"></a><a class="deleteicon" href="javascript:;"><i class="iconfont">&#xe624;</i></a><div class="count">' + nowitems[i].count + '</div></div>');
                         }
+                        localStorage.setItem("category", category);
                     }
 
                 }
@@ -94,10 +98,8 @@ function thumReload() {
     });
 }
 
-// main
-$(document).ready(function() {
-    // console.log("Web client running.");
-    // 本地状态检测
+
+function checkcategory() {
     var temp = localStorage.category;
     if (!(typeof(temp) === "undefined") && (temp === "NORMAL" || temp === "R18" || temp === "ALL")) {
         category = temp;
@@ -114,32 +116,21 @@ $(document).ready(function() {
                 break;
         }
     }
-    temp = localStorage.categorybtn;
+}
+
+function checkcategorybtn() {
+    var temp = localStorage.categorybtn;
     if (!(typeof(temp) === "undefined") && temp === "true") {
         $(".category-status").show();
+        checkcategory();
+    } else {
+        $(".category-status").hide();
+        category = "NORMAL";
     }
-    // 服务器状态检测
-    statusTask();
-    // 身份验证
-    $.get("/api/verification", function(data) {
-        if (data.hasOwnProperty("errno")) {
-            if (data.errno === 0) {
-                // 登录成功
-                // console.log("登录成功");
-                $(".logout-icon,.deleteicon,.delete").show();
-                $(".category-status").show();
-            } else {
-                // 登录失败
-                // console.log("登录失败");
-                $(".logout-icon,.deleteicon,.delete").hide();
-            }
-        } else {
-            // 连接服务器失败
-            // console.log("连接服务器失败");
-            $(".download-status").css("background-color", "red");
-            $(".logout-icon,.delete").hide();
-        }
-    });
+}
+
+
+function getTimeList() {
     // 获取后台信息
     $.get("/api/time", function(data) {
         // 时间列表
@@ -162,6 +153,37 @@ $(document).ready(function() {
             $(".logout-icon,.delete").hide();
         }
     });
+}
+
+// main
+$(document).ready(function() {
+    // console.log("Web client running.");
+    // 服务器状态检测
+    statusTask();
+    // 身份验证
+    $.get("/api/verification", function(data) {
+        if (data.hasOwnProperty("errno")) {
+            if (data.errno === 0) {
+                // 登录成功
+                // console.log("登录成功");
+                $(".logout-icon,.deleteicon,.delete").show();
+                $(".category-status").show();
+                checkcategory();
+            } else {
+                // 登录失败
+                // console.log("登录失败");
+                $(".logout-icon,.deleteicon,.delete").hide();
+                checkcategorybtn();
+            }
+        } else {
+            // 连接服务器失败
+            // console.log("连接服务器失败");
+            $(".download-status").css("background-color", "red");
+            $(".logout-icon,.delete").hide();
+            checkcategorybtn();
+        }
+        getTimeList();
+    });
 });
 
 //退出登录
@@ -170,12 +192,8 @@ $(".logout-icon").click(function() {
         $.get("/api/logout");
         $.cookie("AuthCert", null);
         $(".logout-icon,.deleteicon,.delete").hide();
-        var temp = localStorage.categorybtn;
-        if (!(typeof(temp) === "undefined") && temp === "true") {
-            $(".category-status").show();
-        } else {
-            $(".category-status").hide();
-        }
+        checkcategorybtn();
+        thumReload();
     }
 })
 
@@ -212,6 +230,8 @@ $(".download-status").mousedown(function() {
             $(".category-status").hide();
             localStorage.setItem("categorybtn", "false");
         }
+        checkcategorybtn();
+        thumReload();
     }, 3000);
 });
 $(".download-status").mouseup(function() {
