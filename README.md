@@ -95,7 +95,7 @@ IMGPATH = "img" # 更改之后前端的script.js也要更改，不建议更改
 FLASK_PASSWORD = "passwd"  # 管理员密码，记得改
 
 # pixiv账号密码
-PIXIV_USERNAME = "username"  # P站账号，不登录无法查询R18排行榜
+PIXIV_USERNAME = "username"  # P站账号
 PIXIV_PASSWORD = "password"  # P站账号的密码
 
 # 是否启用代理图床站(pixiv.cat)

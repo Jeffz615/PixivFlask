@@ -1,6 +1,7 @@
 // 全局变量
 var timelist, nowtime, nowitems, nowpage, rankid;
 var category = "NORMAL";
+var topp = 0;
 
 
 // 定时任务，检测服务器状态
@@ -75,6 +76,14 @@ function thumReload() {
                     }
 
                 }
+                if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|ios)/i)) {
+                    $(".deleteicon").css("opacity", "0.6");
+                    $(".count").css("opacity", "0.6");
+                } else {
+                    $(".hbox h2,.hbox span").draggable({
+                        axis: "x"
+                    });
+                }
             } else {
                 // 连接服务器失败
                 // console.log("连接服务器失败");
@@ -109,9 +118,6 @@ $(document).ready(function() {
     if (!(typeof(temp) === "undefined") && temp === "true") {
         $(".category-status").show();
     }
-    $("h2,footer>.hbox>span").draggable({
-        axis: "x"
-    });
     // 服务器状态检测
     statusTask();
     // 身份验证
@@ -292,13 +298,18 @@ function origView(pageid) {
 
 // 原图视窗
 $(".img-thum-wapper").on("click", ".item>.thumimg", function() {
+    topp = $(document).scrollTop(); // 记录滚动条
     rankid = Number($(this).attr("name")); // 找到第几张图片
     origView(0) // 展示第一张照片
 });
 
 // 点击原图展开菜单
 $(".img-orig-wapper").on("click", "a", function() {
-    showMenu();
+    if (nowpage + 1 < nowitems[rankid].count) {
+        origView(nowpage + 1);
+    } else {
+        showMenu();
+    }
 });
 
 $(".homepage").click(function() {
@@ -311,6 +322,7 @@ $(".homepage").click(function() {
     $("h1").show();
     $("footer>.hbox>span").hide();
     $("footer>.hbox>a").show();
+    $(document).scrollTop(topp);
 });
 
 $(".first-page").click(function() {
@@ -357,7 +369,9 @@ function deleteItem(rankid) {
                 }
             }
         });
-
+        return true;
+    } else {
+        return false;
     }
 }
 
@@ -408,8 +422,9 @@ function deleteAllItem(typelist) {
 
 
 $(".delete").click(function() {
-    deleteItem(rankid);
-    $(".homepage").click();
+    if (deleteItem(rankid)) {
+        $(".homepage").click();
+    }
 });
 
 

@@ -12,4 +12,4 @@ NORMALMODE = ["day", "week", "month", "day_male", "day_female",
 R18MODE = ["day_r18", "day_male_r18",
            "day_female_r18", "week_r18", "week_r18g"]
 
-PIXIVCAT = "https://pixiv.cat/"
+PIXIVCAT = "i.pixiv.cat"

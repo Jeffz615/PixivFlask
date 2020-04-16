@@ -20,8 +20,11 @@ def apiLogin() -> pixivpy3.ByPassSniApi:
     api = pixivpy3.ByPassSniApi()
     api.require_appapi_hosts()
     api.set_accept_language('en-us')
-    api.login(config.PIXIV_USERNAME, config.PIXIV_PASSWORD)
-    logger.info("Pixiv登录成功")
+    if config.PIXIV_USERNAME != "username" and config.PIXIV_PASSWORD != "password":
+        api.login(config.PIXIV_USERNAME, config.PIXIV_PASSWORD)
+        logger.info("Pixiv登录成功")
+    else:
+        raise Exception("请在config.py文件中设置账号密码")
     return api
 
 
@@ -82,10 +85,7 @@ def apiDownload(api: pixivpy3.ByPassSniApi, item: dict) -> None:
     # 遍历下载
     for i in range(item['count']):
         if config.USECAT:  # 判断是否使用代理镜像站下载
-            url = define.PIXIVCAT + str(item['illust'])
-            if item['count'] > 1:
-                url += '-' + str(i+1)
-            url += '.' + item['suffix']  # 加上后缀
+            url = item['url'][i].replace("i.pximg.net", define.PIXIVCAT)
         else:
             url = item['url'][i]
         name = str(item['illust']) + "-" + str(i) + "." + item['suffix']
@@ -100,8 +100,18 @@ def apiDownload(api: pixivpy3.ByPassSniApi, item: dict) -> None:
             img = Image.open(os.path.join(origPath, name))
             width = img.size[0]  # 获取宽度
             height = img.size[1]  # 获取高度
-            img = img.resize((int(width / height * 250), 250),
-                             Image.ANTIALIAS)  # 按比例缩放，高度固定为250px
+            if 1.3*width < height:
+                x0 = int(0)
+                y0 = int((height-1.3*width)/2)
+                x1 = int(width)
+                y1 = int(y0+1.3*width)
+            elif 1.3*width > height:
+                x0 = (width-height/1.3)/2
+                y0 = int(0)
+                x1 = int(x0+height/1.3)
+                y1 = int(height)
+            img = img.crop((x0, y0, x1, y1))
+            img = img.resize((192, 250), Image.ANTIALIAS)  # 按比例缩放，高度固定为250px
             img.save(thumName)
         time.sleep(3)  # 延时3s，防止下载过快卡死
     logger.info("下载完成 " + str(item['illust']) + ':' + item['title'])
@@ -115,8 +125,8 @@ def pixiv() -> None:
     try:
         api = apiLogin()
     except:
-        logger.error("Pixiv登录失败")
-        # 无账号可以下载非R18类型，因此不退出
+        logger.error("Pixiv登录失败，请检查账号密码")
+        return
     items = {}
     for t in config.CHOICEMODE:
         try:

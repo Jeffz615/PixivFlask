@@ -1,3 +1,11 @@
+* {
+    user-select: none;
+
+    &::-webkit-scrollbar {
+        display: none
+    }
+}
+
 a {
     text-decoration: none;
 }
@@ -131,17 +139,16 @@ header {
     .hbox {
         // background-color: red;
         width: calc(100vw - 180px);
-        display: flex;
-        justify-content: center;
-        overflow: hidden;
+        text-align: center;
+        overflow-x: auto;
 
         h1,
         h2 {
-            user-select: none;
             font-size: 20px;
             font-weight: bolder;
             color: black;
             text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+            white-space: nowrap;
         }
     }
 
@@ -205,19 +212,27 @@ main {
     .img-thum-wapper {
         display: flex;
         flex-wrap: wrap;
+        padding: 2vw;
 
         .item {
-            display: inline;
+            display: inline-block;
             position: relative;
-            margin: 5px;
-            border-radius: 25px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             transition: 0.3s;
+            width: 46vw;
+            height: 60vw;
+            margin: 1vw;
+            border-radius: 6vw;
 
             img {
-                max-height: 250px;
-                max-width: 90vw;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                min-width: 46vw;
+                min-height: 60vw;
+                max-width: 50vw;
             }
 
             .deleteicon {
@@ -258,7 +273,6 @@ main {
                 height: 30px;
                 line-height: 30px;
                 text-align: center;
-                user-select: none;
                 transition: 0.3s;
             }
 
@@ -284,6 +298,10 @@ main {
 
     .img-orig-wapper {
         text-align: center;
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
 
         img {
             max-width: 100%;
@@ -319,16 +337,13 @@ footer {
     bottom: 0;
     z-index: 9998;
     overflow: hidden;
-    user-select: none;
+
 
     .hbox {
         // background-color: red;
         width: calc(100vw - 60px);
-        display: flex;
-        justify-content: center;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        text-align: center;
+        overflow-x: auto;
 
         a {
             color: #333;
@@ -337,6 +352,10 @@ footer {
             &:hover {
                 color: black;
             }
+        }
+
+        span {
+            white-space: nowrap;
         }
     }
 
@@ -356,4 +375,68 @@ footer {
     overflow: hidden;
     line-height: 30px;
     padding: 0 15px;
+}
+
+
+@media screen {
+
+    // 4
+    @media (min-width:400px) and (max-width:800px) {
+        main .img-thum-wapper {
+            padding: 0.4vw;
+
+            .item {
+                width: 24vw;
+                height: 30vw;
+                margin: 0.4vw;
+                border-radius: 3vw;
+
+                img {
+                    min-width: 24vw;
+                    min-height: 30vw;
+                    max-width: 25vw;
+                }
+            }
+        }
+    }
+
+    // 6
+    @media (min-width:800px) and (max-width:1200px) {
+        main .img-thum-wapper {
+            padding: 0.2vw;
+
+            .item {
+                width: 15vw;
+                height: 20vw;
+                margin: 0.8vw;
+                border-radius: 2vw;
+
+                img {
+                    min-width: 15vw;
+                    min-height: 20vw;
+                    max-width: 16vw;
+                }
+            }
+        }
+    }
+
+    @media (min-width:1200px) {
+        main .img-thum-wapper {
+            padding: 5px;
+
+            .item {
+                width: 180px;
+                height: 250px;
+                margin: 5px;
+                border-radius: 25px;
+
+                img {
+                    min-width: 190px;
+                    min-height: 250px;
+                    max-width: 195px;
+                }
+            }
+        }
+    }
+
 }
