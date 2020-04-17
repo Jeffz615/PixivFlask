@@ -276,6 +276,7 @@ function origView(pageid) {
     if (!(pageid >= 0 && pageid < nowitems[rankid].count)) {
         return;
     }
+    $(".img-orig-wapper img").attr("src", "");
     var snowtime = String(nowtime);
     var yea = snowtime.substring(0, 4); // 年文件夹
     var mon = snowtime.substring(4, 6); // 月文件夹
