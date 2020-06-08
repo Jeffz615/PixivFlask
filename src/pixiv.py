@@ -3,11 +3,12 @@ from . import config
 from . import define
 import pixivpy3
 import time
+import datetime
 import os
 from PIL import Image
 from .db import dbconnect, dbclose, dbinsert, dbifhave
 from apscheduler.schedulers.background import BackgroundScheduler
-from threading import Lock
+from threading import Lock, Thread
 from .logger import logger
 
 lock = Lock()  # 线程锁，只执行一个下载线程
@@ -162,6 +163,11 @@ def pixivCron() -> None:
     scheduler = BackgroundScheduler()
     scheduler.add_job(func=pixiv, trigger='cron', **config.APSTIME)
     scheduler.start()
+    dt = datetime.datetime.now()
+    (h, m, s) = (dt.hour, dt.minute, dt.second)
+    if datetime.time(**config.APSTIME) <= datetime.time(**{"hour": h, "minute": m, "second": s}):
+        t = Thread(target=pixiv)
+        t.start()
 
 
 if __name__ == "__main__":
