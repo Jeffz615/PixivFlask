@@ -11,6 +11,10 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from threading import Lock, Thread
 from .logger import logger
 import subprocess
+import socket
+import socks
+socks.set_default_proxy(socks.SOCKS5, "127.0.0.1", 10808)
+socket.socket = socks.socksocket
 
 lock = Lock()  # 线程锁，只执行一个下载线程
 downloading = False  # 判断是否正在下载
@@ -21,10 +25,10 @@ def ariadl(url, path, name):
 
 
 # 登录Pixiv
-def apiLogin() -> pixivpy3.ByPassSniApi:
+def apiLogin() -> pixivpy3.AppPixivAPI:
     logger.info("尝试登录gPixiv")
-    api = pixivpy3.ByPassSniApi()
-    api.require_appapi_hosts(hostname="public-api.secure.pixiv.net")
+    api = pixivpy3.AppPixivAPI()
+    # api.require_appapi_hosts()
     api.set_accept_language('en-us')
     if config.PIXIV_USERNAME != "username" and config.PIXIV_PASSWORD != "password":
         api.login(config.PIXIV_USERNAME, config.PIXIV_PASSWORD)
@@ -35,7 +39,7 @@ def apiLogin() -> pixivpy3.ByPassSniApi:
 
 
 # 根据类型获取排行榜信息
-def apiRanking(api: pixivpy3.ByPassSniApi, t: str) -> list:
+def apiRanking(api: pixivpy3.AppPixivAPI, t: str) -> list:
     logger.info("尝试获取 " + t + " 排行榜信息")
     json_result = api.illust_ranking(mode=t)
     rt = []
@@ -69,7 +73,7 @@ def isValidImage(pathfile):
 
 
 # 图片下载并创建缩略图
-def apiDownload(api: pixivpy3.ByPassSniApi, item: dict) -> None:
+def apiDownload(api: pixivpy3.AppPixivAPI, item: dict) -> None:
     # item = {"illust": illust, "title": title,
     #         "count": count, "tags": tags, "url": url, "suffix": suffix}
     logger.info("尝试下载 " + str(item['illust']) + ':' + item['title'])
@@ -130,11 +134,19 @@ def pixiv() -> None:
     lock.acquire()
     downloading = True
     logger.info("Pixiv下载模块已启动")
-    try:
-        api = apiLogin()
-    except:
-        logger.error("Pixiv登录失败，请检查账号密码")
-        return
+    os.system('systemctl start v2ray.service')
+    logger.info("v2ray服务已启动")
+    trytime = 1
+    while trytime <= 10:
+        try:
+            time.sleep(10)
+            api = apiLogin()
+            break
+        except:
+            logger.error("Pixiv登录失败")
+            trytime += 1
+            if trytime > 10:
+                return
     items = {}
     for t in config.CHOICEMODE:
         try:
@@ -160,6 +172,8 @@ def pixiv() -> None:
             except:
                 logger.error(
                     "下载失败 " + str(item['illust']) + ":" + item['title'])
+    os.system('systemctl stop v2ray.service')
+    logger.info('v2ray服务已关闭')
     logger.info("Pixiv下载模块已关闭")
     downloading = False
     lock.release()
@@ -179,5 +193,4 @@ def pixivCron() -> None:
 
 if __name__ == "__main__":
     pixivCron()
-    import os
     os.system("pause>nul")
